@@ -4,6 +4,8 @@ import SwiftUI
 extension View {
     func popup<Content: View>(
         isPresented: Binding<Bool>,
+        width: CGFloat = 300,
+        height: CGFloat = 320,
         @ViewBuilder content: () -> Content
     ) -> some View {
         self.overlay {
@@ -14,7 +16,7 @@ extension View {
                         .onTapGesture {
                             isPresented.wrappedValue = false
                         }
-                    content()
+                    content().frame(width: width, height: height)
                 }
             }
         }

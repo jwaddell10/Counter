@@ -32,7 +32,7 @@ struct AddCounterView: View {
         .background(Color(.systemBackground))
         .cornerRadius(12)
     }
-    
+
     func saveCounterItem() {
         let newItem = CounterItem(
             name: counterName,

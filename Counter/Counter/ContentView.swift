@@ -3,7 +3,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var counterItems: [CounterItem]
+    @Query private var counterEntries: [CounterEntry]
+
     @State private var showingAddItem = false
     @State private var counterName = ""
 
@@ -11,8 +12,14 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            List(counterItems) { item in
-                CounterRowView(item: item)
+            List(
+                counterEntries.filter {
+                    Calendar.current.isDateInToday($0.date)
+                }
+            ) { entry in
+                if let item = entry.item {
+                    CounterRowView(item: item, count: entry)
+                }
             }
             .navigationTitle("My Counter Items")
             .toolbar {

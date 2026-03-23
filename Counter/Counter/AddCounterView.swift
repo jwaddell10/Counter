@@ -36,10 +36,17 @@ struct AddCounterView: View {
     func saveCounterItem() {
         let newItem = CounterItem(
             name: counterName,
-            count: 0,
-            timestamp: Date()
+            createdAt: Date.now,
+            isArchived: false,
         )
+
+        //        let newCount = CounterEntry(
+        //            date: Date.now,
+        //            count: 0,
+        //            item: newItem
+        //        )
         modelContext.insert(newItem)
+        //        modelContext.insert(newCount)
         isPresented = false
     }
 }

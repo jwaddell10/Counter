@@ -3,6 +3,7 @@ import SwiftUI
 
 struct CounterItemDetailView: View {
     @Bindable var item: CounterItem
+    @Bindable var count: CounterEntry
 
     @State private var showEditSheet = false
     @State private var showResetPopup = false
@@ -10,9 +11,9 @@ struct CounterItemDetailView: View {
     var body: some View {
         NavigationStack {
             Button {
-                item.count += 1  // or whatever tap action you want
+                count.count += 1  // or whatever tap action you want
             } label: {
-                Text("\(item.count)")
+                Text("\(count.count)")
                     .font(.custom("HelveticaNeue", fixedSize: 200))
             }
             .toolbar {
@@ -32,7 +33,7 @@ struct CounterItemDetailView: View {
             .navigationTitle(item.name)
         }
         .sheet(isPresented: $showEditSheet) {
-            EditTallySheet(item: item)
+            EditTallySheet(item: item, count: count)
         }
         .popup(isPresented: $showResetPopup, width: 300, height: 200) {
             VStack(spacing: 20) {
@@ -58,7 +59,7 @@ struct CounterItemDetailView: View {
                     .cornerRadius(10)
 
                     Button("Reset") {
-                        item.count = 0
+                        count.count = 0
                         showResetPopup = false
                     }
                     .frame(maxWidth: .infinity)
@@ -80,16 +81,17 @@ struct CounterItemDetailView: View {
 struct EditTallySheet: View {
     @Environment(\.dismiss) private var dismiss
     let item: CounterItem
-
+    let count: CounterEntry
     // Local state for editing
     @State private var editedName: String
     @State private var editedCount: Int
 
-    init(item: CounterItem) {
+    init(item: CounterItem, count: CounterEntry) {
         self.item = item
+        self.count = count
         // Initialize state with current values
         _editedName = State(initialValue: item.name)
-        _editedCount = State(initialValue: item.count)
+        _editedCount = State(initialValue: count.count)
     }
 
     var body: some View {
@@ -117,7 +119,7 @@ struct EditTallySheet: View {
                     Button("Save") {
                         // Save changes to the item
                         item.name = editedName
-                        item.count = editedCount
+                        count.count = editedCount
                         dismiss()
                     }
                     .disabled(editedName.isEmpty)

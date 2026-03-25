@@ -23,12 +23,22 @@ struct ContentView: View {
             }
             .navigationTitle("My Counter Items")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    NavigationLink(destination: CounterItemGraphView()) {
+                        Image(systemName: "chart.bar.xaxis")
+                            .padding(8)
+                            .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+
                     Button {
                         showingAddItem = true
                         counterName = ""
                     } label: {
                         Image(systemName: "plus")
+                            .padding(8)
+                            .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
             }
